@@ -21,8 +21,19 @@ module.exports.loop = function () {
         console.log('Spawning new harvester: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK, CARRY, MOVE], newName,
             { memory: { role: 'harvester' } });
+
+    
     }
 
+    var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
+    //console.log('Harvesters: ' + harvesters.length);
+
+    if (harvesters.length < 4) {
+        var newName = 'BigHarvester' + Game.time;
+        console.log('Spawning new bigharvester: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE], newName,
+            { memory: { role: 'harvester' } });
+        }
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');//[WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE]
     //console.log('Builders: ' + builders.length);
 
@@ -91,6 +102,6 @@ module.exports.loop = function () {
         }
     }
     for (var name in Game.rooms) {
-        console.log('Upgraders: ' + upgraders.length + ' Builders: ' + builders.length + ' Harvesters: ' + harvesters.length + ' || And Room "' + name + '" has ' + Game.rooms[name].energyAvailable + ' energy');
+        console.log('Upgraders: ' + upgraders.length + ' Builders: ' + builders.length + ' logistics: '  + logistics.length + ' Harvesters: ' + harvesters.length + ' || And Room "' + name + '" has ' + Game.rooms[name].energyAvailable + ' energy');
     }
 }
