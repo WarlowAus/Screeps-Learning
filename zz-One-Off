@@ -1,0 +1,24 @@
+
+	
+Game.spawns['Spawn1'].spawnCreep( [WORK, CARRY, MOVE], 'Upgrader',     { memory: { role: 'upgrader' } } );	
+Game.spawns['Spawn1'].spawnCreep( [WORK, CARRY, MOVE], 'Builder1',     { memory: { role: 'builder' } } );
+Game.spawns['Spawn1'].spawnCreep( [WORK, CARRY, MOVE], 'Harvester3',     { memory: { role: 'harvester' } } );
+Game.creeps['Harvester1'].memory.role = 'harvester';
+Game.creeps['Upgrader1'].memory.role = 'upgrader';
+
+var flag = Game.flags[creep.memory.reservedSource];
+            if(flag.room != undefined && creep.room.name == flag.room.name){
+                var source = creep.room.find(FIND_SOURCES, {
+                    filter: (structure) => {
+                        return structure.pos.x == flag.pos.x &&
+                        structure.pos.y == flag.pos.y
+                    }
+                });
+                // try to harvest energy, if the source is not in range
+                if (creep.harvest(source) == ERR_NOT_IN_RANGE && creep.fatigue == 0) {
+                    // move towards the source
+                    creep.moveTo(source);
+                }
+            } else {
+                creep.moveTo(flag);
+            }
